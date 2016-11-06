@@ -5,31 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrightnessControl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="Auto" Width="256" Closed="Window_Closed" WindowStyle="None" AllowsTransparency="True" Background="Black" Deactivated="Window_Deactivated" SizeToContent="Height" Loaded="Window_Loaded" Left="50" Top="60" Focusable="False" Topmost="True" ShowInTaskbar="False" ShowActivated="False">
-    <Grid>
-        <StackPanel Margin="15,5,15,15">
-            <Label x:Name="label" Content="Brightness" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Padding="0,5" FontSize="12" />
-            <Slider x:Name="brightnessSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Maximum="100" ValueChanged="brightnessSlider_ValueChanged" Style="{DynamicResource FlatSlider}" Width="226" />
-            <Label x:Name="label1" Content="Contrast" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Padding="0,5" Margin="0,5,0,0" FontSize="12" />
-            <Slider x:Name="contrastSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Maximum="100" ValueChanged="contrastSlider_ValueChanged" Style="{DynamicResource FlatSlider}" Width="226" />
-        </StackPanel>
+        Title="Brightness" Closed="Window_Closed" WindowStyle="None" AllowsTransparency="True" Background="#BF222222" Deactivated="Window_Deactivated" SizeToContent="WidthAndHeight" Loaded="Window_Loaded" Left="48" Top="48" Focusable="False" Topmost="True" ShowInTaskbar="False" ShowActivated="False">
+    <Grid Visibility="Visible">
+        <Grid x:Name="grid_toggler" Height="148" Margin="0" Width="264" Visibility="Collapsed">
+            <Grid Margin="16">
+                <Label x:Name="label1" Content="Brightness" Margin="48,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Segoe UI Light" HorizontalAlignment="Left" Height="32" VerticalContentAlignment="Center" Padding="0" TextOptions.TextHintingMode="Animated"/>
+                <Label x:Name="label1_Copy" Content="&#xE706;" VerticalAlignment="Top" Foreground="White" FontSize="32" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Left" Padding="0"/>
+                <Button x:Name="brightnessToggler" Content="100%" HorizontalAlignment="Left" Height="60" VerticalAlignment="Bottom" Width="84" BorderThickness="0" Template="{DynamicResource ButtonControlTemplate1}" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            </Grid>
+        </Grid>
+        <Grid x:Name="grid_slider" Margin="0" Width="80" Height="188" Visibility="Collapsed">
+            <StackPanel Margin="16">
+                <Slider x:Name="brightnessSlider" HorizontalAlignment="Center" Maximum="100" ValueChanged="brightnessSlider_ValueChanged" Orientation="Vertical" Height="124" />
+                <Label x:Name="label" Content="&#xE706;" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="0,8,0,0" RenderTransformOrigin="0.5,0.5" >
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0.291"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
+            </StackPanel>
+        </Grid>
     </Grid>
     <Window.Resources>
         <ResourceDictionary>
-            <Storyboard x:Key="hide">
-                <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:1" To="0.0"/>
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Hidden}"/>
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
+            <ControlTemplate x:Key="ButtonControlTemplate1" TargetType="{x:Type Button}">
+                <Grid x:Name="grid" Background="#19FFFFFF">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="MouseOver">
+                                <Storyboard>
+                                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="grid">
+                                        <EasingColorKeyFrame KeyTime="0" Value="#33FFFFFF"/>
+                                    </ColorAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <Storyboard>
+                                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="grid">
+                                        <EasingColorKeyFrame KeyTime="0" Value="#19000000"/>
+                                    </ColorAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Disabled"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Label x:Name="label" Content="&#xE706;" Margin="0" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" FontFamily="Segoe MDL2 Assets" FontWeight="Normal" FontSize="16" Foreground="White"/>
+                    <Label x:Name="label_Copy" Content="{TemplateBinding Content}" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Bottom" Width="Auto" Margin="0" Background="{x:Null}" Foreground="White" FontFamily="Segoe UI" FontSize="12" FontWeight="Normal"/>
+                </Grid>
+            </ControlTemplate>
             <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cyan.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
     </Window.Resources>
 </Window>

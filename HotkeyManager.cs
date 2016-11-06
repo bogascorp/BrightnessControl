@@ -69,10 +69,14 @@ namespace BrightnessControl
 
         public void Unregister(int id)
         {
-            if (!UnregisterHotKey(source.Handle, id))
+            try
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                if (!UnregisterHotKey(source.Handle, id))
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
             }
+            catch (Exception e) { }
         }
 
         public void Dispose()
